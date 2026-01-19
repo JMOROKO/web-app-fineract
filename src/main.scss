@@ -147,7 +147,7 @@
 }
 
 .responsive-column {
-  @media (width <= 768px) {
+  @media (width <=768px) {
     flex-direction: column;
   }
 }
@@ -235,13 +235,13 @@
 }
 
 .layout-gt-sm-row {
-  @media (width >= 600px) {
+  @media (width >=600px) {
     flex-direction: row;
   }
 }
 
 .align-gt-sm-start-center {
-  @media (width >= 600px) {
+  @media (width >=600px) {
     justify-content: flex-start;
     align-items: center;
   }
@@ -369,7 +369,7 @@
   flex: 0 0 48%;
 }
 
-@media (width <= 768px) {
+@media (width <=768px) {
   .hide-lt-md {
     display: none !important;
   }
@@ -442,21 +442,21 @@
   flex: 0 0 96%;
 }
 
-@media screen and (width <= 599px) {
+@media screen and (width <=599px) {
   .flex-xs-15 {
     flex: 0 0 15%;
     max-width: 15%;
   }
 }
 
-@media screen and (width >= 600px) and (width <= 959px) {
+@media screen and (width >=600px) and (width <=959px) {
   .flex-sm-10 {
     flex: 0 0 10%;
     max-width: 10%;
   }
 }
 
-@media screen and (width >= 960px) and (width <= 1279px) {
+@media screen and (width >=960px) and (width <=1279px) {
   .flex-md-5 {
     flex: 0 0 5%;
     max-width: 5%;
@@ -464,7 +464,7 @@
 }
 
 .hide-lt-sm {
-  @media (width <= 599px) {
+  @media (width <=599px) {
     display: none !important;
   }
 }
@@ -548,24 +548,24 @@
 }
 
 .flex-gt-sm-30 {
-  @media (width >= 600px) {
+  @media (width >=600px) {
     flex: 1 0 30%;
   }
 }
 
-@media (width <= 1199px) {
+@media (width <=1199px) {
   .hide-lt-lg {
     display: none !important;
   }
 }
 
-@media (width <= 768px) {
+@media (width <=768px) {
   .flex-25 {
     flex: 0 0 50%;
   }
 }
 
-@media (width <= 599px) {
+@media (width <=599px) {
   .layout-xs-column {
     flex-direction: column;
   }
@@ -584,19 +584,19 @@
 }
 
 .layout-lt-md-column {
-  @media (width <= 768px) {
+  @media (width <=768px) {
     flex-direction: column;
   }
 }
 
 .layout-column.lt-md {
-  @media (width <= 599px) {
+  @media (width <=599px) {
     flex-direction: column !important;
   }
 }
 
 .responsive-flex-full {
-  @media (width <= 768px) {
+  @media (width <=768px) {
     flex: 0 0 100% !important;
   }
 }
@@ -617,19 +617,19 @@
   }
 }
 
-@media (width <= 768px) {
+@media (width <=768px) {
   .flex-lt-md-50 {
     flex: 0 0 50%;
   }
 }
 
-@media (width <= 768px) {
+@media (width <=768px) {
   .flex-50-lt-md {
     flex: 0 0 50%;
   }
 }
 
-@media (width <= 599px) {
+@media (width <=599px) {
   .layout-column-xs {
     flex-direction: column !important;
   }
@@ -717,5 +717,87 @@ mat-card {
 
   > [class] {
     overflow: hidden;
+  }
+}
+
+.dark-theme {
+  .tox.tox-tinymce {
+    border-color: #444 !important;
+  }
+
+  .tox .tox-editor-header,
+  .tox .tox-toolbar-overlord,
+  .tox .tox-toolbar,
+  .tox .tox-toolbar__overflow,
+  .tox .tox-toolbar__primary {
+    background-color: #303135 !important;
+  }
+
+  .tox .tox-tbtn {
+    background-color: transparent !important;
+    color: rgb(255 255 255 / 87%) !important;
+
+    svg {
+      fill: rgb(255 255 255 / 87%) !important;
+    }
+
+    &:hover {
+      background-color: rgb(255 255 255 / 12%) !important;
+    }
+
+    &:focus {
+      background-color: rgb(255 255 255 / 8%) !important;
+    }
+  }
+
+  .tox .tox-tbtn--bevel {
+    background: transparent !important;
+  }
+
+  .tox .tox-tbtn--select {
+    background-color: transparent !important;
+  }
+
+  .tox .tox-split-button {
+    background-color: transparent !important;
+
+    &:hover {
+      box-shadow: none !important;
+    }
+  }
+
+  .tox .tox-edit-area {
+    background-color: #303135 !important;
+
+    iframe {
+      background-color: transparent !important;
+    }
+  }
+
+  .tox .tox-sidebar-wrap {
+    background-color: #303135 !important;
+  }
+
+  .tox .tox-menubar {
+    background-color: #303135 !important;
+  }
+
+  .tox .tox-menu {
+    background-color: #303135 !important;
+    border-color: #444 !important;
+  }
+
+  .tox .tox-collection__item {
+    color: rgb(255 255 255 / 87%) !important;
+
+    &:hover {
+      background-color: rgb(255 255 255 / 8%) !important;
+    }
+  }
+
+  .tox .tox-statusbar {
+    background-color: #303135 !important;
+    border-color: #444 !important;
+    color: rgb(255 255 255 / 60%) !important;
   }
 }

@@ -99,14 +99,16 @@
         <label for="template-text-editor" class="required-label required-label-editor">
           {{ 'labels.inputs.Text' | translate }} <span class="required-asterisk">*</span>
         </label>
-        <editor
-          id="template-text-editor"
-          #tinymceEditor
-          [init]="tinymceConfig"
-          [initialValue]="templateData.template?.text || ''"
-          licenseKey="gpl"
-          [formControl]="templateForm.controls.text"
-        ></editor>
+        @if (editorVisible) {
+          <editor
+            id="template-text-editor"
+            #tinymceEditor
+            [init]="tinymceConfig"
+            [initialValue]="templateData.template?.text || ''"
+            licenseKey="gpl"
+            [formControl]="templateForm.controls.text"
+          ></editor>
+        }
       </div>
     </mat-card-content>
 

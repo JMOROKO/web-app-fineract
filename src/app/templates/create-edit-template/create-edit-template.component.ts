@@ -7,7 +7,8 @@
  */
 
 /** Angular Imports */
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   UntypedFormGroup,
   UntypedFormBuilder,
@@ -23,6 +24,7 @@ import { clientParameterLabels, loanParameterLabels, repaymentParameterLabels } 
 /** Custom Services */
 import { TemplatesService } from '../templates.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { ThemingService } from 'app/shared/theme-toggle/theming.service';
 import { EditorComponent, EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import {
   MatAccordion,
@@ -60,22 +62,34 @@ export class CreateEditComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private templateService = inject(TemplatesService);
+  private themingService = inject(ThemingService);
+  private destroyRef = inject(DestroyRef);
 
-  /** TinyMCE instance configuration */
-  tinymceConfig = {
-    base_url: 'assets/tinymce',
-    suffix: '.min',
-    menubar: false,
-    branding: false,
-    height: 320,
-    forced_root_block: false,
-    statusbar: false,
-    elementpath: false,
-    resize: false,
-    plugins: 'lists link table media codesample',
-    toolbar:
-      'undo redo | blocks | bold italic underline | link | numlist bullist outdent indent | alignleft aligncenter alignright alignjustify | table media | removeformat'
-  };
+  themeKey = 'light';
+
+  editorVisible = true;
+
+  get tinymceConfig() {
+    const isDark = this.themeKey === 'dark-theme';
+    return {
+      base_url: 'assets/tinymce',
+      suffix: '.min',
+      menubar: false,
+      branding: false,
+      height: 320,
+      forced_root_block: false,
+      statusbar: false,
+      elementpath: false,
+      resize: false,
+      skin: isDark ? 'oxide-dark' : 'oxide',
+      content_css: isDark ? 'dark' : 'default',
+      content_style: isDark ? 'body { background-color: transparent !important; }' : '',
+      body_class: isDark ? 'dark-theme' : '',
+      plugins: 'lists link table media codesample',
+      toolbar:
+        'undo redo | blocks | bold italic underline | link | numlist bullist outdent indent | alignleft aligncenter alignright alignjustify | table media | removeformat'
+    };
+  }
   /** TinyMCE component reference */
   @ViewChild('tinymceEditor', { static: false }) tinymceEditor: EditorComponent;
 
@@ -105,16 +119,24 @@ export class CreateEditComponent implements OnInit {
    * @param {TemplateService} templateService Templates Service
    */
   constructor() {
-    this.route.data.subscribe((data: { templateData: any; mode: 'create' | 'edit' }) => {
-      this.templateData = data.templateData;
-      this.mode = data.mode;
-      if (this.mode === 'edit') {
-        this.mappers = this.templateData.template.mappers.map((mapper: any) => ({
-          mappersorder: mapper.mapperorder,
-          mapperskey: new UntypedFormControl(mapper.mapperkey),
-          mappersvalue: new UntypedFormControl(mapper.mappervalue)
-        }));
-      }
+    this.route.data
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data: { templateData: any; mode: 'create' | 'edit' }) => {
+        this.templateData = data.templateData;
+        this.mode = data.mode;
+        if (this.mode === 'edit') {
+          this.mappers = this.templateData.template.mappers.map((mapper: any) => ({
+            mappersorder: mapper.mapperorder,
+            mapperskey: new UntypedFormControl(mapper.mapperkey),
+            mappersvalue: new UntypedFormControl(mapper.mappervalue)
+          }));
+        }
+      });
+
+    this.themingService.theme.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((theme) => {
+      this.themeKey = theme;
+      this.editorVisible = false;
+      setTimeout(() => (this.editorVisible = true));
     });
   }
 
@@ -173,25 +195,30 @@ export class CreateEditComponent implements OnInit {
    */
   buildDependencies() {
     const tenantIdentifier = 'default'; // update once global settings are setup.
-    this.templateForm.get('entity').valueChanges.subscribe((value: any) => {
-      if (value === 0) {
-        // client
-        this.mappers.splice(0, 1, {
-          mappersorder: 0,
-          mapperskey: new UntypedFormControl('client'),
-          mappersvalue: new UntypedFormControl('clients/{{clientId}}?tenantIdentifier=' + tenantIdentifier)
-        });
-      } else {
-        // loan
-        this.mappers.splice(0, 1, {
-          mappersorder: 0,
-          mapperskey: new UntypedFormControl('loan'),
-          mappersvalue: new UntypedFormControl('loans/{{loanId}}?associations=all&tenantIdentifier=' + tenantIdentifier)
-        });
-      }
-      this.setEditorContent('');
-      this.templateForm.get('text').setValue('');
-    });
+    this.templateForm
+      .get('entity')
+      .valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value: any) => {
+        if (value === 0) {
+          // client
+          this.mappers.splice(0, 1, {
+            mappersorder: 0,
+            mapperskey: new UntypedFormControl('client'),
+            mappersvalue: new UntypedFormControl('clients/{{clientId}}?tenantIdentifier=' + tenantIdentifier)
+          });
+        } else {
+          // loan
+          this.mappers.splice(0, 1, {
+            mappersorder: 0,
+            mapperskey: new UntypedFormControl('loan'),
+            mappersvalue: new UntypedFormControl(
+              'loans/{{loanId}}?associations=all&tenantIdentifier=' + tenantIdentifier
+            )
+          });
+        }
+        this.setEditorContent('');
+        this.templateForm.get('text').setValue('');
+      });
     if (this.mode === 'create') {
       this.templateForm.get('entity').patchValue(0);
     }
