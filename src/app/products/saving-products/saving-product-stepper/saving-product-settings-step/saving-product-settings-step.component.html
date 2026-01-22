@@ -97,7 +97,14 @@
         matInput
         matTooltip="{{ 'tooltips.Sets the balance required for interest calculation' | translate }}"
         formControlName="minBalanceForInterestCalculation"
+        min="0"
+        step="0.01"
       />
+      <mat-error *ngIf="savingProductSettingsForm.get('minBalanceForInterestCalculation').hasError('min')">
+        {{ 'labels.inputs.Balance Required for Interest Calculation' | translate }}
+        {{ 'labels.commons.must be' | translate }}
+        {{ 'labels.commons.a positive number' | translate }}
+      </mat-error>
     </mat-form-field>
 
     <mat-checkbox
@@ -116,7 +123,13 @@
         matInput
         matTooltip="{{ 'tooltips.Sets the minimum balance allowed for a saving account' | translate }}"
         formControlName="minRequiredBalance"
+        min="0"
+        step="0.01"
       />
+      <mat-error *ngIf="savingProductSettingsForm.get('minRequiredBalance').hasError('min')">
+        {{ 'labels.inputs.Minimum Balance' | translate }} {{ 'labels.commons.must be' | translate }}
+        {{ 'labels.commons.a positive number' | translate }}
+      </mat-error>
     </mat-form-field>
 
     <mat-checkbox

@@ -94,9 +94,15 @@ export class SavingProductSettingsStepComponent implements OnInit {
       ],
       enableLockinPeriod: [false],
       withdrawalFeeForTransfers: [false],
-      minBalanceForInterestCalculation: [''],
+      minBalanceForInterestCalculation: [
+        '',
+        [Validators.min(0)]
+      ],
       enforceMinRequiredBalance: [false],
-      minRequiredBalance: [''],
+      minRequiredBalance: [
+        '',
+        [Validators.min(0)]
+      ],
       allowOverdraft: [false],
       withHoldTax: [false],
       isDormancyTrackingActive: [false]
