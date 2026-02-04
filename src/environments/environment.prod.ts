@@ -11,6 +11,8 @@ import env from './.env';
 
 // The `window['env']` object is loaded in the `index.html` file
 const loadedEnv = window['env'] || {};
+const base = loadedEnv['fineractApiUrl'];
+const provider = loadedEnv['apiProvider'];
 
 export const environment = {
   production: true,
@@ -27,7 +29,7 @@ export const environment = {
   baseApiUrl:
     loadedEnv['fineractApiUrl'] ||
     (loadedEnv['fineractApiUrls']?.length > 0 ? loadedEnv['fineractApiUrls'].split(',')[0] : window.location.origin),
-  oauthServerUrl: loadedEnv['oauthServerUrl'] || loadedEnv['fineractApiUrl'] + loadedEnv['apiProvider'],
+  oauthServerUrl: loadedEnv['oauthServerUrl'] ?? (base && provider ? `${base}${provider}` : ''),
   allowServerSwitch: loadedEnv.allowServerSwitch || 'true',
   apiProvider: loadedEnv['apiProvider'] || '/fineract-provider/api',
   apiVersion: loadedEnv['apiVersion'] || '/v1',
