@@ -64,12 +64,21 @@ export class RecurringDepositProductTermsStepComponent implements OnInit {
 
   createrecurringDepositProductTermsForm() {
     this.recurringDepositProductTermsForm = this.formBuilder.group({
-      minDepositAmount: [''],
+      minDepositAmount: [
+        '',
+        Validators.min(0)
+      ],
       depositAmount: [
         '',
-        Validators.required
+        [
+          Validators.required,
+          Validators.min(0)
+        ]
       ],
-      maxDepositAmount: [''],
+      maxDepositAmount: [
+        '',
+        Validators.min(0)
+      ],
       interestCompoundingPeriodType: [
         '',
         Validators.required
