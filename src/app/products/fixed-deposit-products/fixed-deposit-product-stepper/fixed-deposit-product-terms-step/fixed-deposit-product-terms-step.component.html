@@ -14,6 +14,7 @@
       <mat-label>{{ 'labels.inputs.Minimum' | translate }}</mat-label>
       <input
         type="number"
+        min="0"
         matInput
         formControlName="minDepositAmount"
         matTooltip="{{ 'tooltips.The minimum deposit amount required to open a fixed deposit' | translate }}"
@@ -24,6 +25,7 @@
       <mat-label>{{ 'labels.inputs.Default' | translate }}</mat-label>
       <input
         type="number"
+        min="0"
         matInput
         formControlName="depositAmount"
         matTooltip="{{ 'tooltips.The default deposit amount expected' | translate }}"
@@ -40,6 +42,7 @@
 
       <input
         type="number"
+        min="0"
         matInput
         formControlName="maxDepositAmount"
         matTooltip="{{ 'tooltips.The maximum deposit amount allowed when a fixed deposit' | translate }}"
