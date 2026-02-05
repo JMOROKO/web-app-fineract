@@ -8,7 +8,7 @@
 
 :host {
   position: relative;
-  background: white;
+  background: var(--md-sys-color-surface, white);
   border-radius: 8px;
   padding: 20px;
 }
