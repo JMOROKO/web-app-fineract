@@ -28,7 +28,7 @@
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #333;
+  color: var(--md-sys-color-on-surface, #333);
   margin: 0 0 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgb(0 0 0 / 12%);
