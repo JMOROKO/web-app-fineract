@@ -186,17 +186,26 @@ export class FundMappingComponent implements OnInit {
           if (_value === 'between') {
             this.fundMappingForm.addControl(
               'minOutStandingAmountPercentage',
-              new UntypedFormControl('', Validators.required)
+              new UntypedFormControl('', [
+                Validators.required,
+                Validators.min(0)
+              ])
             );
             this.fundMappingForm.addControl(
               'maxOutStandingAmountPercentage',
-              new UntypedFormControl('', Validators.required)
+              new UntypedFormControl('', [
+                Validators.required,
+                Validators.min(0)
+              ])
             );
             this.fundMappingForm.removeControl('outStandingAmountPercentage');
           } else {
             this.fundMappingForm.addControl(
               'outStandingAmountPercentage',
-              new UntypedFormControl('', Validators.required)
+              new UntypedFormControl('', [
+                Validators.required,
+                Validators.min(0)
+              ])
             );
             this.fundMappingForm.removeControl('minOutStandingAmountPercentage');
             this.fundMappingForm.removeControl('maxOutStandingAmountPercentage');
@@ -216,11 +225,29 @@ export class FundMappingComponent implements OnInit {
         this.fundMappingForm.addControl('outstandingAmountCondition', new UntypedFormControl('', Validators.required));
         this.fundMappingForm.get('outstandingAmountCondition').valueChanges.subscribe((_value: string) => {
           if (_value === 'between') {
-            this.fundMappingForm.addControl('minOutstandingAmount', new UntypedFormControl('', Validators.required));
-            this.fundMappingForm.addControl('maxOutstandingAmount', new UntypedFormControl('', Validators.required));
+            this.fundMappingForm.addControl(
+              'minOutstandingAmount',
+              new UntypedFormControl('', [
+                Validators.required,
+                Validators.min(0)
+              ])
+            );
+            this.fundMappingForm.addControl(
+              'maxOutstandingAmount',
+              new UntypedFormControl('', [
+                Validators.required,
+                Validators.min(0)
+              ])
+            );
             this.fundMappingForm.removeControl('outstandingAmount');
           } else {
-            this.fundMappingForm.addControl('outstandingAmount', new UntypedFormControl('', Validators.required));
+            this.fundMappingForm.addControl(
+              'outstandingAmount',
+              new UntypedFormControl('', [
+                Validators.required,
+                Validators.min(0)
+              ])
+            );
             this.fundMappingForm.removeControl('minOutstandingAmount');
             this.fundMappingForm.removeControl('maxOutstandingAmount');
           }
