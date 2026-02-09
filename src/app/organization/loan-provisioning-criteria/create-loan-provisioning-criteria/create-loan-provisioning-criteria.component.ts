@@ -187,6 +187,7 @@ export class CreateLoanProvisioningCriteriaComponent implements OnInit {
         value: definition ? definition.minAge : '',
         type: 'number',
         required: true,
+        min: 0,
         order: 1
       })
     );
@@ -197,6 +198,7 @@ export class CreateLoanProvisioningCriteriaComponent implements OnInit {
         value: definition ? definition.maxAge : '',
         type: 'number',
         required: true,
+        min: 0,
         order: 2
       })
     );
@@ -207,6 +209,7 @@ export class CreateLoanProvisioningCriteriaComponent implements OnInit {
         value: definition ? definition.provisioningPercentage : '',
         type: 'number',
         required: true,
+        min: 0,
         order: 3
       })
     );
