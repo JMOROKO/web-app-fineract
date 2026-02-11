@@ -44,18 +44,26 @@ export class Datatables {
   public getFormfields(columns: any, dateTransformColumns: string[], dataTableEntryObject: any) {
     return columns.map((column: any) => {
       const displayLabel = this.toDisplayLabel(column.columnName);
+      const colName = column.columnName ? column.columnName.toLowerCase().replace(/[_\s]+/g, '') : '';
+      const isMinSavingsAmount = colName.includes('minimumsavingsamountpermeeting');
+      const isPriceOneShare = colName.includes('priceofoneshare');
       switch (column.columnDisplayType) {
         case 'INTEGER':
         case 'STRING':
         case 'DECIMAL':
-        case 'TEXT':
-          return new InputBase({
+        case 'TEXT': {
+          const inputOptions: any = {
             controlName: column.columnName,
             label: displayLabel,
             value: '',
             type: column.columnDisplayType === 'INTEGER' || column.columnDisplayType === 'DECIMAL' ? 'number' : 'text',
             required: column.isColumnNullable ? false : true
-          });
+          };
+          if (isMinSavingsAmount || isPriceOneShare) {
+            inputOptions.min = 0;
+          }
+          return new InputBase(inputOptions);
+        }
         case 'BOOLEAN':
           return new CheckboxBase({
             controlName: column.columnName,
